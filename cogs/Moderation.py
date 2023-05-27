@@ -21,7 +21,7 @@ class Moderation(commands.Cog):
     async def ban(self, ctx, member : discord.Member, *, reason = None):
         await ctx.channel.trigger_typing()
         await member.ban(reason = reason)
-        await ctx.send(f':boom: Member has been banned.')
+        await ctx.respone.send_message(f':boom: Member has been banned.')
         await ctx.message.delete()
 
     # Pardon
@@ -38,7 +38,7 @@ class Moderation(commands.Cog):
             if(user.name, user.discriminator) == (member_name, member_discriminator):
                 await ctx.channel.trigger_typing()
                 await ctx.guild.unban(user)
-                await ctx.send(f'Unbanned {user.mention}')
+                await ctx.response.send_message(f'Unbanned {user.mention}')
                 return
 
     # Clear
@@ -46,6 +46,7 @@ class Moderation(commands.Cog):
     @commands.has_permissions(administrator = True)
     async def clear(self, ctx, amount=10):
         await ctx.channel.purge(limit=amount)
+        await ctx.response.send_message(amount + "messages have been cleared.")
 
     # Changenick
     @commands.slash_command(name='changenick', description='Changes a users nickname', pass_context=True)
@@ -53,20 +54,22 @@ class Moderation(commands.Cog):
     async def changenick(self, ctx, member: discord.Member, nick):
         await ctx.channel.trigger_typing()
         await member.edit(nick=nick)
-        await ctx.send(f'Nickname was changed for {member.mention} ')
+        await ctx.response.send_message(f'Nickname was changed for {member.mention} ')
 
     # Lockdown
     @commands.slash_command(name='lockdown', description='Locks a text channel')
     @commands.has_permissions(manage_channels=True)
     async def lockdown(self, ctx):
-        await ctx.channel.set_permissions(ctx.guild.default_role, send_messages=False)
+        await ctx.channel.set_permissions(ctx.guild.default_role, send_messages=False, read_messages=False)
+        await ctx.response.send_message(ctx.channel.mention + "is now locked.")
         await ctx.send( ctx.channel.mention + " ***Channel is now in lockdown.***")
 
     # Unlock
     @commands.slash_command(name='unlock', description='Unlocks a text channel')
     @commands.has_permissions(manage_channels=True)
     async def unlock(self, ctx):
-        await ctx.channel.set_permissions(ctx.guild.default_role, send_messages=True)
+        await ctx.channel.set_permissions(ctx.guild.default_role, send_messages=True, read_messages=True)
+        await ctx.response.send_message(ctx.channel.mention + "is now unlocked.")
         await ctx.send( ctx.channel.mention + " ***Channel has been unlocked.***")
 
     # Shutdown

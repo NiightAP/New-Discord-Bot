@@ -27,8 +27,7 @@ async def on_ready():
     change_status.start()
     print(f'{client.user} has connected to Discord!')
     try:
-        synced = await client.tree.sync()
-        print(f"Synced {len(synced)} command(s)")
+        print('Bot loaded.')
     except Exception as e:
         print(e)
 
@@ -45,11 +44,22 @@ async def on_message(message):
 @commands.is_owner()
 async def load(ctx, extension):
     client.load_extension(f'cogs.{extension}')
+    embed = discord.Embed(title='Load', description=f'{extension} successfully loaded', color=0xff00c8)
+    await ctx.response.send_message(embed=embed)
 
 @client.slash_command(pass_context = True, name='unload_extension', description='Unloads cog')
 @commands.is_owner()
 async def unload(ctx, extension):
     client.unload_extension(f'cogs.{extension}')
+    embed = discord.Embed(title='Unload', description=f'{extension} successfully unloaded', color=0xff00c8)
+    await ctx.response.send_message(embed=embed)
+    
+@client.slash_command(pass_context = True, name='reload_extension', description='Reloads cog')
+@commands.is_owner()
+async def reload(ctx, extension):
+    client.reload_extension(f"cogs.{extension}")
+    embed = discord.Embed(title='Reload', description=f'{extension} successfully reloaded', color=0xff00c8)
+    await ctx.response.send_message(embed=embed)
 
 for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
