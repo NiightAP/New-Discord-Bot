@@ -16,15 +16,16 @@ class Info(commands.Cog):
         await ctx.response.send_message("**@NiightGamez#1009**" + " Developed by NiightAP: https://github.com/niightap")
 
     # Source
-    @commands.slash_command(name='source', description='Link to bot source code.')
-    async def source(self, ctx):
-        await ctx.response.send_message(f"**{ctx.bot.user}** is powered by this source code:\nhttps://github.com/NiightAP/New-Discord-Bot")
+    # @commands.slash_command(name='source', description='Link to bot source code.')
+    # async def source(self, ctx,):
+    #     await ctx.response.send_message(f':white_check_mark: Sent you a DM')
+    #     await discord.Member.send(f"**{ctx.bot.user}** is powered by this source code:\nhttps://github.com/NiightAP/New-Discord-Bot")
 
     # Invite
-    @commands.command(name='bot_invite', description='Bot invite link.')
-    async def invite(self, ctx):
-        invitelink = "Invite NiightAP to your server with this link: \nhttps://niightap.fanlink.to/botinv"
-        await ctx.response.send_message(invitelink)
+    # @commands.command(name='bot_invite', description='Bot invite link.')
+    # async def invite(self, ctx):
+    #     invitelink = "Invite NiightAP to your server with this link: \nhttps://niightap.fanlink.to/botinv"
+    #     await ctx.response.send_message(invitelink)
         
         
 def setup(client):
